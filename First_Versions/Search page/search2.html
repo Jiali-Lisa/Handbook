@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search</title>
+    <!-- <link rel="stylesheet" href="styles.css"> -->
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background-color: #F1F1F1;
+        }
+
+        header {
+            background-color: #012A58;
+            padding: 10px 20px;
+            display: flex;
+            align-items: center;
+        }
+
+        .logo {
+            width: 100px;
+            height: 100px;
+            margin-right: 20px;
+        }
+
+        .direction {
+            color: white;
+            font-size: 30px;
+            margin-right: auto;
+        }
+
+        .search {
+            display: flex;
+            align-items: center;
+            margin-left: auto;
+            color: white;
+            font-size: 20px;
+            position: relative;
+            padding-right: 20px;
+        }
+
+        .search::before {
+            content: url('magnifying-glass-icon.png'); /* replace with magnifying glass icon */
+            position: absolute;
+            right: 100%;
+            margin-right: 10px;
+        }
+
+        /* Search Section */
+        .search-section {
+            display: flex;
+            padding: 15px 20px;
+            background-color: #D1F1FB;
+            justify-content: center;
+        }
+
+        .search-container {
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+        }
+
+        .search-bar {
+            width: 750px;
+            height: 50px;
+            padding-left: 10px;
+        }
+
+        .filter-text {
+            position: absolute;
+            right: 110px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: orange;
+            cursor: pointer;
+            font-size: 16px;
+            padding: 0 10px;
+            background-color: white;
+            z-index: 1;
+        }
+
+        .search-button {
+            position: absolute;
+            right: 0;
+            height: 100%;
+            border: none;
+            background-color: #007bff;
+            color: white;
+            padding: 0 15px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        /* Results Section */
+        .results {
+            padding: 20px;
+            background-color: #F1F1F1;
+            padding-left: 25px;
+        }
+
+        .result-number {
+            font-size: 20px;
+        }
+
+        .page-number {
+            font-size: 25px;
+            margin-top: 20px;
+            padding-bottom: 20px;
+        }
+
+        .page-dropdown {
+            font-size: 25px;
+        }
+
+        /* Result Bar Section */
+        .result-bar-section {
+            display: flex;
+            gap: 20px;
+        }
+
+        .result-bar {
+            background-color: #EDEDED;
+            width: 48%;
+            padding: 10px 10px 22px 22px;
+            box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+
+        .result-bar h3 {
+            font-size: 24px;
+            margin: 0;
+            color: #000;
+        }
+
+        .result-bar p {
+            font-size: 16px;
+            color: #333;
+        }
+
+        .requirements {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .requirements div {
+            position: relative;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            color: white;
+        }
+
+        .requirements div:hover::after {
+            content: attr(data-content);
+            position: absolute;
+            left: -210px; /* Adjust this value based on your preference */
+            bottom: 100%;
+            background-color: #406D80;
+            padding: 10px;
+            width: 200px;
+            border-radius: 5px;
+            box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
+            z-index: 10;
+            font-size: 14px;
+            white-space: pre-line; /* Maintains line breaks in the content */
+        }
+
+        .prereq {
+            background-color: #FF4C4C;
+            text-align: center;
+        }
+
+        .quota {
+            background-color: #FFB74D;
+            text-align: center;
+        }
+
+        .non-allow {
+            background-color: #66BB6A;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a class="logo" href="https://www.unimelb.edu.au" aria-label="The University of Melbourne homepage">
+            <img src="UniLogo.jpg" alt="University Logo" class="logo">
+        </a>
+        <span class="direction">Home > Search</span>
+        <span class="search">Search</span>
+    </header>
+
+    <section class="search-section">
+        <div class="search-container">
+            <input type="text" placeholder="Enter subjects / major / ..." class="search-bar">
+            <span class="filter-text" onclick="openFilterWindow()">Filter</span>
+            <button class="search-button">Search</button>
+        </div>
+    </section>
+
+    <section class="results">
+        <div class="result-number">
+            <span> xxx results of "..." found</span>
+        </div>
+        <div class="page-number">
+            <label for="page-select">Page </label>
+            <select id="page-select" class="page-dropdown">
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <!-- Add more options as needed -->
+            </select>
+            <span> of xxx</span>
+        </div>
+        <div class="result-bar-section">
+            <div class="result-bar">
+                <div>
+                    <h3>Subject Name and Code</h3>
+                    <p>Available at which campus at when</p>
+                    <p>Bachelor/master subject under which faculty</p>
+                </div>
+                <div class="requirements">
+                    <div class="prereq" data-content="• xxx subject and code (hyperlink)
+                    • xxx subject and code
+                    • One of:
+                        xxx subject and code (hyperlink)
+                        xxx subject and code (hyperlink)">Prerequisites</div>
+                    <div class="quota" data-content="• Rule 1
+                    • Rule 2
+                    • ...">Quotas Apply</div>
+                    <div class="non-allow" data-content="• xxx subject and code (hyperlink)
+                    • xxx subject and code
+                    • ...">Non-allow subjects</div>
+                </div>
+            </div>
+            <div class="result-bar">
+                <div>
+                    <h3>Subject Name and Code</h3>
+                    <p>Available at which campus at when</p>
+                    <p>Bachelor/master subject under which faculty</p>
+                </div>
+                <div class="requirements">
+                    <div class="prereq" data-content="• xxx subject and code (hyperlink)
+                    • xxx subject and code
+                    • One of:
+                        xxx subject and code (hyperlink)
+                        xxx subject and code (hyperlink)">Prerequisites</div>
+                    <div class="quota" data-content="• Rule 1
+                    • Rule 2
+                    • ...">Quotas Apply</div>
+                    <div class="non-allow" data-content="• xxx subject and code (hyperlink)
+                    • xxx subject and code
+                    • ...">Non-allow subjects</div>
+                </div>
+            </div>
+        </div>
+    </section>
+</body>
+</html>

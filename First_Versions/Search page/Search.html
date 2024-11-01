@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Search</title>
+        <!-- <link rel="stylesheet" href="styles.css"> -->
+    </head>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background-color: #F1F1F1;
+        }
+
+        header {
+            background-color: #012A58;
+            padding: 10px 20px;
+            display: flex;
+            align-items: center;
+        }
+
+        .logo {
+            width: 100px;
+            height: 100px;
+            margin-right: 20px;
+        }
+
+        .direction {
+            color: white;
+            font-size: 30px;
+            margin-right: auto;
+        }
+
+        .search {
+            display: flex;
+            align-items: center;
+            margin-left: auto;
+            color: white;
+            font-size: 20px;
+            position: relative;
+            padding-right: 20px;
+        }
+
+        /* .search::before { 
+            position: absolute;
+            right: 100%;
+            margin-right: 10px;
+        } */
+
+        /* Search Section */
+        .search-section {
+            display: flex;
+            padding: 15px 20px;
+            background-color: #D1F1FB;
+            justify-content: center;
+        }
+
+        .search-container {
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+        }
+
+        .search-bar {
+            width: 750px;
+            height: 50px;
+            padding-left: 10px;
+        }
+
+        .filter-text {
+            position: absolute;
+            right: 110px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: orange;
+            cursor: pointer;
+            font-size: 16px;
+            padding: 0 10px;
+            background-color: white;
+            z-index: 1;
+        }
+
+        .search-button {
+            position: absolute;
+            right: 0;
+            height: 100%;
+            border: none;
+            background-color: #007bff;
+            color: white;
+            padding: 0 15px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        /* Results Section */
+        .results {
+            padding: 20px;
+            background-color: #F1F1F1;
+            padding-left: 25px;
+        }
+
+        .result-number {
+            font-size: 20px;
+        }
+
+        .page-number {
+            font-size: 25px;
+            margin-top: 20px;
+            padding-bottom: 20px;
+        }
+
+        .page-dropdown {
+            font-size: 25px;
+        }
+
+        .result-bar-section {
+            display: flex;
+            flex-wrap: wrap; 
+            gap: 20px;
+        }
+
+        .result-bar {
+            background-color: #EDEDED;
+            width: 47%; 
+            padding: 10px 10px 22px 22px;
+            box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .result-bar h3 {
+            font-size: 24px;
+            margin: 0;
+            color: #000;
+        }
+
+        .result-bar p {
+            font-size: 16px;
+            color: #333;
+        }
+
+        .requirements {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .requirements div {
+            position: relative;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .requirements div:hover::after {
+            content: attr(data-content);
+            position: absolute;
+            left: 0;
+            bottom: 100%;
+            background-color: #406D80;
+            padding: 10px;
+            width: 200px;
+            border-radius: 5px;
+            box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
+            z-index: 10;
+            font-size: 14px;
+        }
+
+        .prereq {
+            background-color: #FF4C4C;
+            color: white;
+        }
+
+        .quota {
+            background-color: #FFB74D;
+            color: white;
+        }
+
+        .non-allow {
+            background-color: #66BB6A;
+            color: white;
+        }
+
+        /* Filter Popup */
+        .filter-popup {
+            display: none;
+            position: absolute;
+            flex-direction: row;
+            top: 100%;
+            right: 0;
+            width: 735px; /* Match this to the search bar width */
+            padding: 15px;
+            background-color: #fff;
+            border: 1px solid #ccc;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+            border-radius: 5px;
+        }
+        .filter-popup h4 {
+            margin: 0;
+            font-size: 18px;
+            color: #012A58;
+            border-bottom: 1px solid #DDD;
+            padding-bottom: 10px;
+            margin-bottom: 10px;
+        }
+        .filter-popup a {
+            display: block;
+            color: #007bff;
+            text-decoration: none;
+            padding: 5px 0;
+        }
+
+        .filter-popup a:hover {
+            text-decoration: underline;
+        }
+        .filter-options {
+            display: flex;
+            flex-direction: column;
+            max-width: 200px;
+        }
+        .filter-options a {
+            margin-bottom: 10px;
+            color: black;
+            text-decoration: none;
+        }
+        .filter-details {
+            margin-left: 20px;
+            flex-grow: 1;
+            border-left: 1px solid #ccc;
+            padding-left: 20px;
+            display: flex;
+            align-items: flex-start;
+            justify-content: flex-start;
+        }
+
+        .show {
+            display: block;
+        } 
+
+        /* Search box styling */
+        .overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            z-index: 1200;
+            justify-content: center;
+            align-items: center;
+        }
+        .overlay .search-box {
+            width: 50%;
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .overlay .search-box input {
+            width: 80%;
+            padding: 10px;
+            font-size: 18px;
+        }
+
+        .overlay .search-box button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            font-size: 18px;
+        }
+
+        .bottom{
+            background-color: #000F46;
+            height:600px;
+            margin-top: 20px;
+        }
+
+        .scroll-to-top {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            display: none; /* Initially hidden */
+            z-index: 1000;
+        }
+
+        .scroll-to-top:hover {
+            background-color: #FF616D;
+        }
+    </style>
+    <body>
+        <header>
+            <a class="logo" href="https://www.unimelb.edu.au" aria-label="The University of Melbourne homepage">
+                <img src="UniLogo.jpg" alt="University Logo" class="logo">
+            </a>
+            <span class="direction">Home > Search</span>
+            <span class="search" onclick="toggleOverlay()">Search</span>
+        </header>
+
+        <div class="overlay" id="searchOverlay">
+            <div class="search-box">
+                <input type="text" placeholder="Enter subjects / major / ...">
+                <button>Search</button>
+            </div>
+        </div>
+
+        <section class="search-section">
+            <div class="search-container">
+                <input type="text" placeholder="Enter subjects / major / ..." class="search-bar">
+                <span class="filter-text" onclick="toggleFilterPopup()">Filter</span>
+                <div class="filter-popup" id="filterPopup">
+                    <div class="filter-options">
+                        <a href="#" onclick="showFilterDetails('Subject Level')">Subject Level</a>
+                        <a href="#" onclick="showFilterDetails('Study Period')">Study Period</a>
+                        <a href="#" onclick="showFilterDetails('Campus Location')">Campus Location</a>
+                        <a href="#" onclick="showFilterDetails('Mode of Delivery')">Mode of Delivery</a>
+                        <a href="#" onclick="showFilterDetails('Area of Study')">Area of Study</a>
+                        <a href="#" onclick="showFilterDetails('Previous Subject')">Previous Subject</a>
+                        <a href="#" onclick="showFilterDetails('Breath Track')">Breath Track</a>
+                        <a href="#" onclick="showFilterDetails('Overseas Component')">Overseas Component</a>
+                        <a href="#" onclick="showFilterDetails('Credits')">Credits</a>
+                    </div>
+
+                    <div class="filter-details" id="filterDetails">
+                        <p>Select a filter to view details</p>
+                    </div>
+                </div>
+                <button class="search-button">Search</button>
+            </div>
+        </section>
+        
+        
+        <section class="results">
+            <div class="result-number">
+                <span> xxx results of "..." found</span>
+            </div>
+            <div class="page-number">
+                <label for="page-select">Page </label>
+                <select id="page-select" class="page-dropdown">
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <!-- Add more options as needed -->
+                </select>
+                <span> of xxx</span>
+            </div>
+            <div class="result-bar-section">
+                <div class="result-bar">
+                    <h3>Subject Name and Code</h3>
+                    <p>Available at which campus at when</p>
+                    <p>Bachelor/master subject under which faculty</p>
+                    <div class="requirements">
+                        <div class="prereq" data-content="• xxx subject and code (hyperlink)
+                        • xxx subject and code
+                        • One of:
+                            xxx subject and code (hyperlink)
+                            xxx subject and code (hyperlink)">Prerequisites</div>
+                        <div class="quota" data-content="• Rule 1 • Rule 2 • ...">Quotas Apply</div>
+                        <div class="non-allow" data-content="• xxx subject and code (hyperlink) • xxx subject and code • ...">Non-allow subjects</div>
+                    </div>
+                </div>
+                <div class="result-bar">
+                    <h3>Subject Name and Code</h3>
+                    <p>Available at which campus at when</p>
+                    <p>Bachelor/master subject under which faculty</p>
+                    <div class="requirements">
+                        <div class="prereq" data-content="• xxx subject and code (hyperlink)
+                            • xxx subject and code
+                            • One of:
+                            – xxx subject and code (hyperlink)
+                            – xxx subject and code (hyperlink)">Prerequisites</div>
+                        <div class="quota" data-content="• Rule 1 • Rule 2 • ...">Quotas Apply</div>
+                        <div class="non-allow" data-content="• xxx subject and code (hyperlink)
+                            • xxx subject and code
+                            • ...">Non-allow subjects</div>
+                    </div>
+                </div>
+                <div class="result-bar">
+                    <h3>Subject Name and Code</h3>
+                    <p>Available at which campus at when</p>
+                    <p>Bachelor/master subject under which faculty</p>
+                    <div class="requirements">
+                        <div class="prereq" data-content="• xxx subject and code (hyperlink)
+                        • xxx subject and code
+                        • One of:
+                            xxx subject and code (hyperlink)
+                            xxx subject and code (hyperlink)">Prerequisites</div>
+                        <div class="quota" data-content="• Rule 1 • Rule 2 • ...">Quotas Apply</div>
+                        <div class="non-allow" data-content="• xxx subject and code (hyperlink) • xxx subject and code • ...">Non-allow subjects</div>
+                    </div>
+                </div>
+                <div class="result-bar">
+                    <h3>Subject Name and Code</h3>
+                    <p>Available at which campus at when</p>
+                    <p>Bachelor/master subject under which faculty</p>
+                    <div class="requirements">
+                        <div class="prereq" data-content="• xxx subject and code (hyperlink)
+                        • xxx subject and code
+                        • One of:
+                            xxx subject and code (hyperlink)
+                            xxx subject and code (hyperlink)">Prerequisites</div>
+                        <div class="quota" data-content="• Rule 1 • Rule 2 • ...">Quotas Apply</div>
+                        <div class="non-allow" data-content="• xxx subject and code (hyperlink) • xxx subject and code • ...">Non-allow subjects</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="bottom">
+
+        </section>
+
+        <button id="scrollToTop" class="scroll-to-top">↑ Top</button>
+    </body>
+
+    <script>
+        function toggleOverlay() {
+            var overlay = document.getElementById("searchOverlay");
+            if (overlay.style.display === "flex") {
+                overlay.style.display = "none";
+            } else {
+                overlay.style.display = "flex";
+            }
+        }
+
+        window.onclick = function (event) {
+            var overlay = document.getElementById("searchOverlay");
+            if (event.target === overlay) {
+                overlay.style.display = "none";
+            }
+        }
+
+        function toggleFilterPopup() {
+            var popup = document.getElementById("filterPopup");
+            var details = document.getElementById("filterDetails");
+
+            if (popup.style.display === "none" || popup.style.display === "") {
+                // Reset details to the default message when reopening the popup
+                details.innerHTML = '<h3>Select a filter to view details</h3>';
+                popup.style.display = "flex";
+            } else {
+                popup.style.display = "none";
+            }
+        }
+
+
+        function showFilterDetails(filterType) {
+            var details = document.getElementById("filterDetails");
+            var content = '';
+
+            switch (filterType) {
+                case 'Subject Level':
+                    content = '<h3>Subject Level</h3><p>Details about subject levels...</p>';
+                    break;
+                case 'Study Period':
+                    content = '<h3>Study Period</h3><p>Details about study periods...</p>';
+                    break;
+                case 'Campus Location':
+                    content = '<h3>Campus Location</h3><p>Details about campus locations...</p>';
+                    break;
+                case 'Mode of Delivery':
+                    content = '<h3>Mode of Delivery</h3><p>Details about delivery modes...</p>';
+                    break;
+                case 'Area of Study':
+                    content = '<h3>Area of Study</h3><p>Details about areas of study...</p>';
+                    break;
+                case 'Previous Subject':
+                    content = '<h3>Previous Subject</h3><p>Details about previous subjects...</p>';
+                    break;
+                case 'Breath Track':
+                    content = '<h3>Breath Track</h3><p>Details about breath tracks...</p>';
+                    break;
+                case 'Overseas Component':
+                    content = '<h3>Overseas Component</h3><p>Details about overseas components...</p>';
+                    break;
+                case 'Credits':
+                    content = '<h3>Credits</h3><p>Details about credits...</p>';
+                    break;
+            }
+
+            details.innerHTML = content;
+        }
+
+        document.addEventListener('scroll', () => {
+            const scrollToTopButton = document.getElementById('scrollToTop');
+            if (window.scrollY > 300) { // Show button after scrolling down 300px
+                scrollToTopButton.style.display = 'block';
+            } else {
+                scrollToTopButton.style.display = 'none';
+            }
+        });
+
+        document.getElementById('scrollToTop').addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+    </script>
+</html>

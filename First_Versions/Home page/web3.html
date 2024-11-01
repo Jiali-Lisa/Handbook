@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>UniMelb Handbook</title>
+        <!-- <link rel="stylesheet" href="styles.css"> -->
+       
+    </head>    
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        .top-section {
+            padding-bottom: 20px; 
+        }
+
+        .search-section {
+            display: flex;
+            justify-content: center;
+            margin-top: 30px;
+            position: relative;
+        }
+
+        header {
+            display: flex;
+            align-items: center;
+            position: relative;
+            padding-top: 20px;
+            background-color:#064174;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 50px;
+            position: absolute;
+            right: 0;
+            margin-right: 100px;
+        }
+
+        .logo {
+            width: 180px;
+            height: 180px;
+            padding-left: 20px;
+            flex-shrink: 0;
+            padding-bottom:20px;
+        }
+
+        .slogan{
+            font-size: 65px;
+            color: white;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            margin: 0;
+            text-align: center;
+        }
+
+        .search-container {
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+        }
+
+        .search-bar {
+            width: 800px;
+            height: 50px;
+            padding-right: 100px;
+            padding-left: 10px;
+        }
+
+        .filter-text {
+            position: absolute;
+            right: 90px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: orange;
+            cursor: pointer;
+            font-size: 16px;
+            padding: 0 10px;
+            background-color: white;
+            z-index: 1;
+        }
+
+        .search-button {
+            position: absolute;
+            right: 0;
+            height: 100%;
+            border: none;
+            background-color: #007bff;
+            color: white;
+            padding: 0 15px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .search-history {
+            margin-top: 20px;
+            margin-bottom: 20px;
+            font-size: 30px;
+            color: #064174;
+            display: block;
+            text-align: center;
+        }
+
+        .saved-history {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+        }
+
+        .history-item {
+            width: 30%;
+            margin: 20px;
+            padding: 20px;
+            background-color: #fff;
+            border: 1px solid #ccc;
+            text-align: center;
+            font-size: 1.2em;
+        }
+    </style>
+    <body>
+        <div class="top-section">
+            <header>
+                <a class="logo" href="https://www.unimelb.edu.au" aria-label="The University of Melbourne homepage">
+                    <img src="UniLogo.jpg" alt="University Logo" class="logo">
+                </a>
+                <span class="slogan">Postera Crescam Laude</span>
+            </header>
+
+            <section class="search-section">
+                <div class="search-container">
+                    <input type="text" placeholder="Enter subjects / major / ..." class="search-bar">
+                    <span class="filter-text" onclick="showFilters()">Filter</span>
+                    <button class="search-button">Search</button>
+                </div>
+            </section>
+        </div>
+
+        <span class="search-history">Search History:</span>
+
+        <div class="saved-history">
+            <div class="history-item">Saved History 1</div>
+            <div class="history-item">Saved History 2</div>
+            <div class="history-item">Saved History 3</div>
+            <div class="history-item">Saved History 4</div>
+            <div class="history-item">Saved History 5</div>
+            <div class="history-item">Saved History 6</div>
+        </div>
+    </body>
+</html>

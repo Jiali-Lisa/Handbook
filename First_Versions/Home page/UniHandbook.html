@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>UniMelb Handbook</title>
+        <!-- <link rel="stylesheet" href="styles.css"> -->
+       
+    </head>
+    
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #094283;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            display: flex;
+            align-items: center;
+            margin-top: 30px;
+            justify-content: center;
+            position: relative;
+        }
+
+        .logo {
+            width: 150px;
+            height: 150px;
+        }
+        /*saved search button*/
+        .button-group {
+            display: flex;
+            gap: 50px;
+            position: absolute;
+            right: 0;
+            margin-right: 100px;
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        /*search bar*/
+        .search-section {
+            display: flex;
+            justify-content: center;
+            margin-top: 30px;
+        }
+
+        .search-container {
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+        }
+
+        .search-bar {
+            width: 800px;
+            height: 60px;
+            padding-right: 100px;
+            padding-left: 10px;
+        }
+
+        .filter-text {
+            position: absolute;
+            right: 110px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: orange;
+            cursor: pointer;
+            font-size: 16px;
+            padding: 0 10px;
+            background-color: white;
+            z-index: 1;
+        }
+        
+        /* Filter Popup */
+        .filter-popup {
+            display: none;
+            position: absolute;
+            flex-direction: row;
+            top: 100%;
+            right: 0;
+            width: 882px; /* Match this to the search bar width */
+            padding: 15px;
+            background-color: #fff;
+            border: 1px solid #ccc;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+            border-radius: 5px;
+        }
+        .filter-popup h4 {
+            margin: 0;
+            font-size: 18px;
+            color: #012A58;
+            border-bottom: 1px solid #DDD;
+            padding-bottom: 10px;
+            margin-bottom: 10px;
+        }
+        .filter-popup a {
+            display: block;
+            color: #007bff;
+            text-decoration: none;
+            padding: 5px 0;
+        }
+
+        .filter-popup a:hover {
+            text-decoration: underline;
+        }
+        .filter-options {
+            display: flex;
+            flex-direction: column;
+            max-width: 200px;
+        }
+        .filter-options a {
+            margin-bottom: 10px;
+            color: black;
+            text-decoration: none;
+        }
+        .filter-details {
+            margin-left: 20px;
+            flex-grow: 1;
+            border-left: 1px solid #ccc;
+            padding-left: 20px;
+            display: flex;
+            align-items: flex-start;
+            justify-content: flex-start;
+        }
+
+        .show {
+            display: block;
+        } 
+
+        .search-button {
+            position: absolute;
+            right: 0;
+            height: 100%;
+            border: none;
+            background-color: #007bff;
+            color: white;
+            padding: 0 15px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .relative-links {
+            margin-top: 30px;
+            margin-bottom: 15px;
+            font-size: 30px;
+            color: white;
+            display: block;
+            text-align: center;
+        }
+
+        .photo-and-button-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        /*three pics*/
+        .photo-grid {
+            display: flex; /* Use flex to better control centering */
+            justify-content: center; /* Center horizontally */
+            gap: 60px; /* Adjust the gap between items */
+            margin-top: 20px;
+            max-width: 1000px;
+            margin: auto;
+        }
+
+        .photo-item {
+            position: relative;
+            overflow: hidden;
+            height: 200px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 265px;
+        }
+
+        .photo-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .overlay-text {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            padding: 10px;
+            background: rgba(0, 0, 0, 0.6);
+            color: white;
+            text-align: center;
+            font-size: 18px;
+        }
+        /*previous search*/
+        .search-history-word{
+            margin-top: 30px;
+            margin-bottom: 15px;
+            font-size: 30px;
+            color: white;
+            display: block;
+            text-align: center;
+        }
+        .button-container {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 60px; /* Space between buttons */
+            margin-top: 15px;
+        }
+
+        .history-button {
+            width: 265px;
+            /* margin-right: 50px; Space between button and grid */
+        }
+
+        /*for search history*/
+        .side-window {
+            height: 100%;
+            width: 0;
+            position: fixed;
+            top: 0;
+            right: 0;
+            background-color: #000F46;
+            overflow-x: hidden;
+            transition: 0.5s;
+            padding-top: 60px;
+            color: white;
+            z-index: 1000;
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 10px;
+            right: 25px;
+            font-size: 36px;
+            cursor: pointer;
+            color: white;
+        }
+    </style>
+
+    <body>
+        <header>
+            <a class="logo" href="https://www.unimelb.edu.au" aria-label="The University of Melbourne homepage">
+                <img src="UniLogo.png" alt="University Logo" class="logo">
+            </a>
+            <div class="button-group">
+                <button id="openSavedSearch" class="handbook-button">Saved Search</button>
+            </div>
+        </header>
+
+        <section class="search-section">
+            <div class="search-container">
+                <input type="text" placeholder="Enter subjects / major / ..." class="search-bar">
+                <span class="filter-text" onclick="toggleFilterPopup()">Filter</span>
+                <div class="filter-popup" id="filterPopup">
+                    <div class="filter-options">
+                        <a href="#" onclick="showFilterDetails('Subject Level')">Subject Level</a>
+                        <a href="#" onclick="showFilterDetails('Study Period')">Study Period</a>
+                        <a href="#" onclick="showFilterDetails('Campus Location')">Campus Location</a>
+                        <a href="#" onclick="showFilterDetails('Mode of Delivery')">Mode of Delivery</a>
+                        <a href="#" onclick="showFilterDetails('Area of Study')">Area of Study</a>
+                        <a href="#" onclick="showFilterDetails('Previous Subject')">Previous Subject</a>
+                        <a href="#" onclick="showFilterDetails('Breath Track')">Breath Track</a>
+                        <a href="#" onclick="showFilterDetails('Overseas Component')">Overseas Component</a>
+                        <a href="#" onclick="showFilterDetails('Credits')">Credits</a>
+                    </div>
+
+                    <div class="filter-details" id="filterDetails">
+                        <p>Select a filter to view details</p>
+                    </div>
+                </div>
+                <button class="search-button">Search</button>
+            </div>
+        </section>
+
+
+
+        <span class="relative-links">Relative Links:</span>
+
+        <section class="photo-and-button-container">
+            <div class="photo-grid">
+                <a href="https://study.unimelb.edu.au/study-with-us/undergraduate-courses" class="photo-item" target="_blank">
+                    <img src="undergraduate.png" alt="Undergraduate">
+                    <div class="overlay-text">Undergraduate</div>
+                </a>
+                <a href="https://study.unimelb.edu.au/study-with-us/graduate-courses" class="photo-item" target="_blank">
+                    <img src="graduate.png" alt="Graduate">
+                    <div class="overlay-text">Graduate</div>
+                </a>
+                <a href="https://students.unimelb.edu.au/your-course/manage-your-course/planning-your-course-and-subjects/choosing-your-major" class="photo-item" target="_blank">
+                    <img src="clocktower.jpeg" alt="Major">
+                    <div class="overlay-text">Major</div>
+                </a>
+            </div>
+
+            <span id="search-history-word" class="search-history-word" style="display: none;">Search History:</span>
+
+            <div class="button-container">
+                <button class="history-button" id="search1" style="display: none;">Subject 1</button>
+                <button class="history-button" id="search2" style="display: none;">Subject 2</button>
+                <button class="history-button" id="search3" style="display: none;">Subject 3</button>
+            </div>
+        </section>
+        
+
+        <div id="savedSearchWindow" class="side-window">
+            <span class="close-btn" onclick="closeSavedSearchWindow()">&times;</span>
+            <p>This is the Saved Search window.</p>
+        </div>
+
+        
+        <script>
+            document.getElementById("openSavedSearch").onclick = function() {
+                document.getElementById("savedSearchWindow").style.width = "300px";
+            }
+    
+            function closeSavedSearchWindow() {
+                document.getElementById("savedSearchWindow").style.width = "0";
+            }
+            
+            let searchHistory = [];
+            // Assuming this function runs when the user clicks the search button
+            document.querySelector('.search-button').addEventListener('click', function() {
+                // Get the value entered in the search input field
+                const searchValue = document.querySelector('.search-bar').value;
+
+                // If the search field is not empty, show the search history button and update its text
+                if (searchValue) {
+                    // Add the new search value to the beginning of the array
+                    searchHistory.unshift(searchValue);
+
+                    // If we have more than 3 searches, remove the oldest one
+                    if (searchHistory.length > 3) {
+                        searchHistory.pop();
+                    }
+
+                    // Update the buttons with the search history
+                    updateSearchHistoryButtons();
+                }
+            });
+
+            function truncateText(text, maxLength) {
+                if (text.length > maxLength) {
+                    return text.substring(0, maxLength) + '...';
+                }
+                return text;
+            
+            }
+            function updateSearchHistoryButtons() {
+                // Get references to the search history buttons
+                const searchButton1 = document.getElementById('search1');
+                const searchButton2 = document.getElementById('search2');
+                const searchButton3 = document.getElementById('search3');
+
+                // Update each button's text and display status based on the search history
+                if (searchHistory[0]) {
+                    searchButton1.textContent = truncateText(searchHistory[0], 23);
+                    searchButton1.style.display = 'inline-block';
+                    document.getElementById('search-history-word').style.display = 'inline-block';
+                }
+                if (searchHistory[1]) {
+                    searchButton2.textContent = truncateText(searchHistory[1], 23);
+                    searchButton2.style.display = 'inline-block';
+                    document.getElementById('search-history-word').style.display = 'inline-block';
+                }
+                if (searchHistory[2]) {
+                    searchButton3.textContent = truncateText(searchHistory[2], 23);
+                    searchButton3.style.display = 'inline-block';
+                    document.getElementById('search-history-word').style.display = 'inline-block';
+                }
+            }
+            function toggleFilterPopup() {
+            var popup = document.getElementById("filterPopup");
+            var details = document.getElementById("filterDetails");
+
+            if (popup.style.display === "none" || popup.style.display === "") {
+                // Reset details to the default message when reopening the popup
+                details.innerHTML = '<h3>Select a filter to view details</h3>';
+                popup.style.display = "flex";
+            } else {
+                popup.style.display = "none";
+            }
+        }
+
+
+        function showFilterDetails(filterType) {
+            var details = document.getElementById("filterDetails");
+            var content = '';
+
+            switch (filterType) {
+                case 'Subject Level':
+                    content = '<h3>Subject Level</h3><p>Details about subject levels...</p>';
+                    break;
+                case 'Study Period':
+                    content = '<h3>Study Period</h3><p>Details about study periods...</p>';
+                    break;
+                case 'Campus Location':
+                    content = '<h3>Campus Location</h3><p>Details about campus locations...</p>';
+                    break;
+                case 'Mode of Delivery':
+                    content = '<h3>Mode of Delivery</h3><p>Details about delivery modes...</p>';
+                    break;
+                case 'Area of Study':
+                    content = '<h3>Area of Study</h3><p>Details about areas of study...</p>';
+                    break;
+                case 'Previous Subject':
+                    content = '<h3>Previous Subject</h3><p>Details about previous subjects...</p>';
+                    break;
+                case 'Breath Track':
+                    content = '<h3>Breath Track</h3><p>Details about breath tracks...</p>';
+                    break;
+                case 'Overseas Component':
+                    content = '<h3>Overseas Component</h3><p>Details about overseas components...</p>';
+                    break;
+                case 'Credits':
+                    content = '<h3>Credits</h3><p>Details about credits...</p>';
+                    break;
+            }
+
+            details.innerHTML = content;
+        }
+    
+            
+
+        </script>
+    </body>
+</html>

@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>UniMelb Handbook</title>
+        <!-- <link rel="stylesheet" href="styles.css"> -->
+       
+    </head>
+    
+    <style>
+        header {
+            display: flex;
+            align-items: center;
+            padding-top: 20px;
+            justify-content: center;
+            position: relative;
+            background-color: #012A58;
+            padding-bottom: 20px;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 50px;
+            position: absolute;
+            right: 0;
+            margin-right: 100px;
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            /*background-color: #012A58;*/
+            margin: 0;
+            padding: 0;
+        }
+
+        .logo {
+            width: 200px;
+            height: 200px;
+        }
+
+        .search-section {
+            display: flex;
+            justify-content: center;
+            margin-top: 15px;
+        }
+
+        .search-container {
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+        }
+
+        .search-bar {
+            width: 700px;
+            height: 40px;
+            padding-right: 100px;
+            padding-left: 10px;
+        }
+
+        .filter-text {
+            position: absolute;
+            right: 110px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #007bff;
+            cursor: pointer;
+            font-size: 16px;
+            padding: 0 10px;
+            background-color: white;
+            z-index: 1;
+        }
+
+        .search-button {
+            position: absolute;
+            right: 0;
+            height: 100%;
+            border: none;
+            background-color: #007bff;
+            color: white;
+            padding: 0 15px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .relative-links {
+            margin-top: 15px;
+            margin-bottom: 15px;
+            font-size: 30px;
+            color: #012A58;
+            display: block;
+            text-align: center;
+        }
+
+        .photo-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            margin-top: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .photo-item {
+            position: relative;
+            overflow: hidden;
+            height: 200px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .photo-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .overlay-text {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            padding: 10px;
+            background: rgba(0, 0, 0, 0.6);
+            color: white;
+            text-align: center;
+            font-size: 18px;
+        }
+
+        .side-window {
+            height: 100%;
+            width: 0;
+            position: fixed;
+            top: 0;
+            right: 0;
+            background-color: #000F46;
+            overflow-x: hidden;
+            transition: 0.5s;
+            padding-top: 60px;
+            color: white;
+            z-index: 1000;
+            /* padding-left: 20px; */
+        }
+
+        .filter-window {
+            height: 100%;
+            width: 0;
+            position: fixed;
+            top: 0;
+            left: 0;
+            background-color: #000F46;
+            overflow-x: hidden;
+            transition: 0.5s;
+            padding-top: 60px;
+            color: white;
+            z-index: 1000;
+            /* padding-left: 20px; */
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 10px;
+            right: 25px;
+            font-size: 36px;
+            cursor: pointer;
+            color: white;
+        }
+    </style>
+
+    <body>
+        <header>
+            <a class="logo" href="https://www.unimelb.edu.au" aria-label="The University of Melbourne homepage">
+                <img src="UniLogo.jpg" alt="University Logo" class="logo">
+            </a>
+            <div class="button-group">
+                <button id="openSavedSearch" class="handbook-button">Saved Search</button>
+            </div>
+        </header>
+
+        <section class="search-section">
+            <div class="search-container">
+                <input type="text" placeholder="Enter subjects / major / ..." class="search-bar">
+                <span class="filter-text" onclick="openFilterWindow()">Filter</span>
+                <button class="search-button">Search</button>
+            </div>
+        </section>
+
+        <span class="relative-links">Relative Links:</span>
+
+        <section class="photo-grid">
+            <a href="https://study.unimelb.edu.au/study-with-us/undergraduate-courses" class="photo-item" target="_blank">
+                <img src="undergraduate.png" alt="Undergraduate">
+                <div class="overlay-text">Undergraduate</div>
+            </a>
+            <a href="https://study.unimelb.edu.au/study-with-us/graduate-courses" class="photo-item" target="_blank">
+                <img src="graduate.png" alt="Graduate">
+                <div class="overlay-text">Graduate</div>
+            </a>
+            <a href="https://students.unimelb.edu.au/your-course/manage-your-course/planning-your-course-and-subjects/choosing-your-major" class="photo-item" target="_blank">
+                <img src="clocktower.jpeg" alt="Major">
+                <div class="overlay-text">Major</div>
+            </a>
+            <a href="https://www.unimelb.edu.au/campustour/campus-information" class="photo-item" target="_blank">
+                <img src="campus.png" alt="Campus">
+                <div class="overlay-text">Campus</div>
+            </a>
+            <a href="https://study.unimelb.edu.au/student-life/clubs-societies-and-events" class="photo-item" target="_blank">
+                <img src="events.png" alt="Subject">
+                <div class="overlay-text">Events</div>
+            </a>
+            <a href="https://study.unimelb.edu.au/find/courses/major/history/" class="photo-item" target="_blank">
+                <img src="history.png" alt="Year">
+                <div class="overlay-text">History</div>
+            </a>
+        </section>
+
+        <div id="savedSearchWindow" class="side-window">
+            <span class="close-btn" onclick="closeSavedSearchWindow()">&times;</span>
+            <p>This is the Saved Search window.</p>
+        </div>
+
+        <div id="filterWindow" class="filter-window">
+            <span class="close-btn" onclick="closeFilterWindow()">&times;</span>
+            <p>This is the Filter window.</p>
+        </div>
+        
+        <script>
+            document.getElementById("openSavedSearch").onclick = function() {
+                document.getElementById("savedSearchWindow").style.width = "300px";
+            }
+    
+            function closeSavedSearchWindow() {
+                document.getElementById("savedSearchWindow").style.width = "0";
+            }
+            function openFilterWindow() {
+                document.getElementById("filterWindow").style.width = "250px";
+            }
+    
+            function closeFilterWindow() {
+                document.getElementById("filterWindow").style.width = "0";
+            }
+        </script>
+       
+    </body>
+</html>

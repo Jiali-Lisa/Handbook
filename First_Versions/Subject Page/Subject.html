@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Subject</title>
+        <!-- <link rel="stylesheet" href="styles.css"> -->
+    </head>
+
+    <style>
+        body{
+            font-family: Arial, sans-serif;
+            margin: 0;
+        }
+
+        header {
+            background-color: #084183;
+            width: 100%;
+            height: 145px;
+            position: fixed;
+            display: flex;
+            z-index: 1000;
+            top:0;
+            left:0;
+            align-items: center;
+        }
+
+        .logo{
+            width: 130px;
+            height: 130px;
+            margin-left: 15px;
+            margin-top: 0;
+        }
+
+        .direction{
+            color: white;
+            font-size: 20px;
+            margin-right: auto;
+            margin-left: 30px;
+            
+        }
+
+        .search{
+            color:white;
+        }
+
+        /* search in dark blue part */
+        .search {
+            display: flex;
+            align-items: center;
+            margin-left: auto;
+            color: white;
+            font-size: 20px;
+            position: relative;
+            padding-right: 60px;
+        }
+
+        .overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            z-index: 1200;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* Search box styling */
+        .overlay .search-box {
+            width: 50%;
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .overlay .search-box input {
+            width: 80%;
+            padding: 10px;
+            font-size: 18px;
+        }
+
+        .overlay .search-box button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            font-size: 18px;
+        }
+
+        .title{
+            background-color: #0058a6;
+            width:100%;
+            height:260px;
+            margin-top: 145px;
+            left:0;
+            display: flex; 
+            justify-content: flex-start; /* Align text to the start horizontally */
+            align-items: center; /* Center text vertically */
+        }
+
+        .subject-wrapper {
+            display: inline-block;
+        }
+
+        .subjectname{
+            color:white;
+            font-size: 40px;
+            padding-left: 20px;
+        }
+
+        .dates{
+            color: white;
+            font-size: 23px; 
+            font-weight: normal;
+            display: block;
+            padding-top: 25px; 
+            padding-left: 20px;
+        }
+
+        .middle{
+            display:flex;
+            /* width: 100%; */
+            position: relative; 
+            background-color: #F5F5F5;
+        }
+
+        .container {
+            justify-content: center; /* Center the .main-content horizontally */
+            align-items: flex-start;
+            transition: all 0.3s ease;
+        }
+
+        .main-content {
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+        .toggle-button {
+            height: 100vh;
+            position: sticky;
+            background-color: #445;
+            color: white;
+            padding: 10px 15px;
+            z-index: 995;
+            top:145px;
+        }
+        .sidebar {
+            height: 100vh;
+            position:sticky;
+            top:145px;
+            width: 530px;
+            background-color: 
+            #edf2f5;
+            transform: translateX(-100%);
+            transition: transform 0.3s ease;
+            z-index: 990;
+        }
+
+        .sidebar.open {
+            transform: translateX(0);
+        }
+
+        .sidebar ul{
+            padding-top: 40px;
+            overflow-y: auto;
+            padding-left: 25px;
+        }
+
+        .sidebar ul p{
+            margin: 0;
+            padding-bottom: 50px;
+            padding-left: 20px;
+            font-size: 30px;
+        }
+
+        .inner{
+            background-color: white; 
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .bottom{
+            background-color: #000F46;
+            height:600px;
+        }
+
+        .scroll-to-top {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            display: none; /* Initially hidden */
+            z-index: 1000;
+        }
+
+        .scroll-to-top:hover {
+            background-color: #FF616D;
+        }
+        
+        
+        
+    </style>
+
+    <body>
+        <header>
+            <a class="logo" href="https://www.unimelb.edu.au" aria-label="The University of Melbourne homepage">
+                <img src="UniLogo.png" alt="University Logo" class="logo">
+            </a>
+            <span class="direction">Home > Search > Subject</span>
+            <span class="search" onclick="toggleOverlay()">Search</span>
+
+        </header>
+
+        <div class="overlay" id="searchOverlay">
+            <div class="search-box">
+                <input type="text" placeholder="Enter subjects / major / ...">
+                <button>Search</button>
+            </div>
+        </div>
+
+        <section class="title">
+            <div class="subject-wrapper">
+                <span class="subjectname">Subject Name and Code</span>
+                <span class="dates">↳ Dates and times</span>
+            </div>
+        </section>
+        
+        <div class="middle">
+            <button class="toggle-button">☰</button>
+            <div class="sidebar">
+                <ul>
+                    <p><a href="#overview">• Overview</a></p>
+                    <p><a href="#eligibility">• Eligibility and Requirements</a></p>
+                    <p><a href="#assessment">• Assessment</a></p>
+                    <p><a href="#dates">• Dates and Times</a></p>
+                    <p><a href="#further">• Further Information</a></p>
+                </ul>
+            </div>
+            <div class="container">
+                <div class="main-content">
+                    <h1 id="overview">Overview</h1>
+                    <p>Some content here...</p>
+                    <p>Some content here...</p>
+                    <p>Some content here...</p>
+                    <p>Some content here...</p>
+                    <h1 id="eligibility">Eligibility and Requirements</h1>
+                    <p class="inner">Some content here...</p>
+                    <p class="inner">Some content here...</p>
+                    <p class="inner">Some content here...</p>
+                    <p class="inner">Some content here...</p>
+                    <h1 id="assessment">Assessment</h1>
+                    <p>Some content here...</p>
+                    <p>Some content here...</p>
+                    <p>Some content here...</p>
+                    <p>Some content here...</p>
+                    <h1 id="dates">Dates and Times</h1>
+                    <p>Some content here...</p>
+                    <p>Some content here...</p>
+                    <p>Some content here...</p>
+                    <p>Some content here...</p>
+                    <h1 id="further">Further Information</h1>
+                    <p>Some content here...</p>
+                    <p>Some content here...</p>
+                    <p>Some content here...</p>
+                    <p>Some content here...</p>
+                </div>    
+            </div>
+        </div>
+
+        <section class="bottom">
+
+        </section>
+
+        <button id="scrollToTop" class="scroll-to-top">↑ Top</button>
+
+    </body>
+
+    <script>
+        function toggleOverlay() {
+            var overlay = document.getElementById("searchOverlay");
+            if (overlay.style.display === "flex") {
+                overlay.style.display = "none";
+            } else {
+                overlay.style.display = "flex";
+            }
+        }
+
+        window.onclick = function (event) {
+            var overlay = document.getElementById("searchOverlay");
+            if (event.target === overlay) {
+                overlay.style.display = "none";
+            }
+        }
+
+        const toggleButton = document.querySelector('.toggle-button');
+        const sidebar = document.querySelector('.sidebar');
+        const mainContent = document.querySelector('.main-content');
+        const container = document.querySelector('.container');
+        const header = document.querySelector('header');
+        const titleSection = document.querySelector('.title');
+
+        function adjustHeight() {
+            const containerHeight = container.offsetHeight;
+            sidebar.style.height = `${containerHeight+1}px`;
+            toggleButton.style.height = `${containerHeight+1}px`;
+        }
+
+        toggleButton.addEventListener('click', () => {
+            sidebar.classList.toggle('open');
+            if (sidebar.classList.contains('open')) {
+                mainContent.style.marginLeft = '300px';
+                
+            } else {
+                mainContent.style.marginLeft = '0';
+            }
+        });
+
+        document.addEventListener('scroll', () => {
+            const scrollToTopButton = document.getElementById('scrollToTop');
+            if (window.scrollY > 300) { // Show button after scrolling down 300px
+                scrollToTopButton.style.display = 'block';
+            } else {
+                scrollToTopButton.style.display = 'none';
+            }
+        });
+
+        document.getElementById('scrollToTop').addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+
+        document.querySelectorAll('.sidebar a').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                
+                const targetId = this.getAttribute('href').substring(1);
+                const targetElement = document.getElementById(targetId);
+                
+                if (targetElement) {
+                    targetElement.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'center',
+                        inline: 'nearest'
+                    });
+                }
+            });
+        });
+
+
+    </script>
+</html>

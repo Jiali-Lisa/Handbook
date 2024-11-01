@@ -1,0 +1,367 @@
+html {
+    scroll-behavior: smooth;
+}
+
+body{
+    font-family: Arial, sans-serif;
+    background-color: #084183;
+}
+/*dark blue part*/
+.subp-header {
+    position: sticky;
+    background-color: #084183;
+    width: 100%;
+    height: 130px;
+    position: sticky;
+    display: flex;
+    z-index: 1000;
+    top:0;
+    align-items: center;
+}
+
+.subp-logo{
+    width: 100px;
+    height: 100px;
+    margin-left: 15px;
+    margin-top: 0;
+}
+
+.subp-direction{
+    color: white;
+    font-size: clamp(16px, 2vw, 20px);
+    margin-right: auto;
+    margin-left: 30px;
+    
+}
+
+.subp-search{
+    color:white;
+}
+
+/* search in dark blue part */
+.subp-search {
+    display: flex;
+    align-items: center;
+    margin-left: auto;
+    color: white;
+    font-size: clamp(16px, 2vw, 20px);
+    position: relative;
+    padding-right: 60px;
+}
+/*page shown when clicking search*/
+.subp-overlay {
+    display: flex;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    z-index: 1200;
+    justify-content: center;
+    align-items: center;
+}
+
+.subp-overlay .subp-search-box {
+    width: 50%;
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.subp-overlay .subp-search-box input {
+    width: 80%;
+    padding: 10px;
+    font-size: clamp(14px, 2vw, 18px);
+    background-color: white;
+    color:black;
+}
+
+.subp-overlay .subp-search-box button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    font-size: clamp(14px, 2vw, 18px);
+}
+
+.subp-title{
+    background-color: #0058a6;
+    width:100%;
+    height:220px;
+    /* margin-top: 145px; */
+    left:0;
+    display: flex; 
+    justify-content: flex-start; 
+    align-items: center; 
+}
+
+.subp-subject-wrapper {
+    display: inline-block;
+    text-align: left;
+}
+
+.subp-subjectname{
+    color:white;
+    font-size: clamp(25px, 2vw, 40px);
+    padding-left: 20px;
+}
+
+.subp-dates{
+    color: white;
+    font-size: clamp(15px, 2vw, 23px); 
+    font-weight: normal;
+    display: block;
+    padding-top: 25px; 
+    padding-left: 20px;
+}
+
+.subp-container {
+    justify-content: center;
+    /* align-items: flex-start; */
+    transition: all 0.3s ease;
+}
+
+.subp-main-content {
+    max-width: 700px;
+    min-height: 700px;
+    margin: 50px 0;
+    text-align: left;
+    transition: all 0.3s ease;
+    color: black;
+    font-size:clamp(10px, 2vw, 16px);
+}
+.subp-main-content  h1{
+    margin-bottom: 20px;
+}
+
+.subp-main-content p{
+    margin-bottom: 20px;
+}
+
+.subp-main-content-sidebar-open {
+    margin-left: 12%; 
+    margin-left: 12%;
+    max-width: 700px;
+    min-height: 700px;
+    margin: 50px 0;
+    text-align: left;
+    transition: all 0.3s ease;
+    color: black;
+    font-size:clamp(10px, 2vw, 16px);
+}
+
+.subp-main-content-sidebar-open  h1{
+    margin-bottom: 20px;
+}
+
+.subp-main-content-sidebar-open p{
+    margin-bottom: 20px;
+}
+
+@media(max-width: 768px){
+    .subp-main-content-sidebar-open {
+        margin-left: 12%;
+    }
+    .sp-logo {
+        width: 80px;
+        height: 80px;
+        margin-right: 10px;
+    }
+    .subp-search {
+        padding-right: 7%;
+    }
+    .subp-footer-content {
+        flex-direction: column;
+    }
+
+    .subp-footer-links {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    
+}
+
+@media(min-width: 768px){
+    .subp-main-content-sidebar-open {
+        margin-left: 12%;
+    }
+    
+}
+
+.subp-middle{
+    display:flex;
+    align-items: start;
+    /* position: relative;   */
+    background-color: #F5F5F5;
+} 
+
+/* grey button to open the sidebar */
+.subp-toggle-button {
+    position: sticky;
+    height: 100dvh;
+    background-color: #445;
+    color: white;
+    padding: 10px 15px;
+    z-index: 995;
+    top:130px;
+    border: none;
+}
+
+.subp-sidebar {
+    position:sticky; 
+    height: 100dvh;
+    top:135px;
+    width: 36vw;
+    background-color: #edf2f5;
+    transform: translateX(-100%);
+    transition: transform 0.3s ease; 
+    z-index: 990;
+    text-align: left;
+    color: black;
+}
+
+.subp-sidebar.open {
+    transform: translateX(0);
+}
+
+.subp-sidebar ul{
+    padding: 10px 25px;
+}
+
+.subp-sidebar ul p{
+    margin: 0;
+    padding-bottom: 40px;
+    font-size: clamp(15px, 2vw, 30px);
+}
+
+.subp-sidebar a{
+    color: black;
+}
+
+.subp-inner{
+    background-color: white; 
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.subp-footer {
+    background-color: #084183;
+    color: white;
+    padding-top: 40px;
+    height:500px;
+
+}
+
+.subp-footer-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.subp-acknowledgment {
+    margin-bottom: 40px;
+    margin-left: 20px;
+    text-align: left;
+    max-width: 1200;
+}
+
+.subp-acknowledgment p {
+    text-align: left;
+    font-size: 25px;
+    line-height: 1.3;
+    font-weight: bold;
+    margin-bottom: 24px;
+    font-family: "Times New Roman", Times, serif;
+}
+
+.subp-acknowledgment a {
+    color: #fff;
+    text-decoration: none;
+}
+
+.subp-footer-links {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    width: 100%;
+    max-width: 1200px;
+}
+
+.subp-footer-col {
+    flex: 1;
+    margin: 20px;
+    min-width: 250px;
+}
+
+.subp-footer-col ul {
+    list-style: none;
+    text-align: left;
+}
+
+.subp-footer-col ul li {
+    margin-bottom: 27px;
+}
+
+.subp-footer-col a{
+    color: white;
+    text-decoration: none;
+}
+
+.subp-footer-col p {
+    margin-bottom: 27px;
+}
+
+.subp-social-media img {
+    width: 30px;
+    margin: 0 10px;
+}
+
+.subp-bottom-logo{
+    width:120px;
+    margin-bottom: 20px;
+}
+
+
+.subp-scroll-to-top {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    display: none; 
+    z-index: 1000;
+}
+
+.subp-scroll-to-top:hover {
+    background-color: #FF616D;
+}
+
+.subp-chatbot{
+    bottom: 60px;
+    right: 30px;
+    z-index: 1000;
+    position: fixed;
+}
+
+.subp-chatbot img {
+    width: 50px;    
+    height: auto;  
+    cursor: pointer; 
+}
